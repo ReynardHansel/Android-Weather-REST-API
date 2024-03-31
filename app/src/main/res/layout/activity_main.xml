@@ -7,57 +7,65 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btn_getCityID"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="Get City ID"
-        app:layout_constraintEnd_toStartOf="@+id/btn_getWeatherByCityID"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp">
 
-    <Button
-        android:id="@+id/btn_getWeatherByCityID"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Weather by ID"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_getWeatherByCityName"
-        app:layout_constraintStart_toEndOf="@id/btn_getCityID"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btn_getWeatherByCityName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Weather by Name"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_getWeatherByCityID"
-        app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/btn_getDog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="Get Dog :D" />
 
-    <EditText
-        android:id="@+id/et_dataInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="City Name"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_getCityID" />
+            <Button
+                android:id="@+id/btn_getBreedInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="What Breed is this doggo?" />
 
-    <ListView
-        android:id="@+id/lv_weatherReports"
-        android:layout_width="0dp"
-        android:layout_height="610dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_dataInput" />
+            <Button
+                android:id="@+id/btn_getBreedList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="Get Breeds List" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_dataInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="Type the dog breed you want to see the photo of"
+            android:inputType="text" />
+
+        <ImageView
+            android:id="@+id/iv_dogImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ListView
+            android:id="@+id/lv_breedList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
