@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     ListView lv_breedList;
     ImageView iv_dogImage;
 
+    String currentBreed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,29 +71,19 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             String imageUrl = response.getString("message");
                             Glide.with(MainActivity.this).load(imageUrl).into(iv_dogImage);
-                            Toast.makeText(MainActivity.this, imageUrl, Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(MainActivity.this, imageUrl, Toast.LENGTH_SHORT).show();
+
+                            // Extract breed from the imageUrl
+                            String[] parts = imageUrl.split("/");
+                            currentBreed = parts[parts.length - 2]; // The breed is the second last part of the URL
                         } catch (JSONException e) {
                             e.printStackTrace();
                             throw new RuntimeException(e);
                         }
-
-                        // try {
-                        //     double latitude = response.getDouble("latitude");
-                        //     double longitude = response.getDouble("longitude");
-                
-                        //     Toast.makeText(MainActivity.this, "Latitude: " + latitude + ", Longitude: " + longitude, Toast.LENGTH_SHORT).show();
-                        // } catch (JSONException e) {
-                        //     e.printStackTrace();
-                        //     throw new RuntimeException(e);
-                        // }
-
-                        // Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
-
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
                         Toast.makeText(MainActivity.this,"Dog Breed not found",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -105,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         btn_getBreedInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "You clicked me 2", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "This is a " + currentBreed, Toast.LENGTH_SHORT).show();
             }
         });
         
