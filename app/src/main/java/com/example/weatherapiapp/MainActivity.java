@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,8 +19,12 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
     //** Get/list the components
@@ -100,12 +105,51 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "This is a " + currentBreed, Toast.LENGTH_SHORT).show();
             }
         });
-        
+
         btn_getBreedList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "You typed: " + et_dataInput.getText().toString(), Toast.LENGTH_SHORT).show();
+                String url = "https://dog.ceo/api/breeds/list/all";
+        
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject dogList = response.getJSONObject("message");
+                            Iterator<String> keys = dogList.keys();
+                            ArrayList<String> breedList = new ArrayList<>();
+                            while (keys.hasNext()) {
+                                String key = keys.next();
+                                JSONArray subBreeds = dogList.optJSONArray(key);
+                                if (subBreeds == null) {
+                                    breedList.add(key);
+                                } else {
+                                    for (int i = 0; i < subBreeds.length(); i++) {
+                                        breedList.add(key + "-" + subBreeds.getString(i));
+                                    }
+                                }
+                            }
+                            displayBreedList(breedList);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this, "Error fetching breed list", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        
+                Volley.newRequestQueue(MainActivity.this).add(request);
             }
         });
+    }
+
+    // Method to display the breed list in the ListView
+    private void displayBreedList(ArrayList<String> breedList) {
+        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, breedList);
+        lv_breedList.setAdapter(itemsAdapter);
     }
 }
