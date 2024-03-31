@@ -50,14 +50,12 @@ public class MainActivity extends AppCompatActivity {
         lv_breedList = findViewById(R.id.lv_breedList);
         iv_dogImage = findViewById(R.id.iv_dogImage);
 
-        // String url = "";
-
         //* Click listeners for each button
         btn_getDog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // Instantiate the RequestQueue.
+                //? Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
 
                 String url;
@@ -78,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                             Glide.with(MainActivity.this).load(imageUrl).into(iv_dogImage);
                             // Toast.makeText(MainActivity.this, imageUrl, Toast.LENGTH_SHORT).show();
 
-                            // Extract breed from the imageUrl
+                            //? Extract breed from the imageUrl
                             String[] parts = imageUrl.split("/");
                             currentBreed = parts[parts.length - 2]; // The breed is the second last part of the URL
                         } catch (JSONException e) {
@@ -95,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
                 queue.add(request);
 
-//                Toast.makeText(MainActivity.this, "You clicked me", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.this, "You clicked me", Toast.LENGTH_SHORT).show();
             }
         });
         
@@ -120,14 +118,16 @@ public class MainActivity extends AppCompatActivity {
                             ArrayList<String> breedList = new ArrayList<>();
                             while (keys.hasNext()) {
                                 String key = keys.next();
-                                JSONArray subBreeds = dogList.optJSONArray(key);
-                                if (subBreeds == null) {
-                                    breedList.add(key);
-                                } else {
-                                    for (int i = 0; i < subBreeds.length(); i++) {
-                                        breedList.add(key + "-" + subBreeds.getString(i));
-                                    }
-                                }
+                                // JSONArray subBreeds = dogList.optJSONArray(key);
+                                breedList.add(key);
+
+                                //* To display all sub-breeds as well */
+                                //! The problem is the data will contain duplicates like "dane" & "dane-great" instead of just "dane-great"
+                                // if (subBreeds != null) {
+                                //     for (int i = 0; i < subBreeds.length(); i++) {
+                                //         breedList.add(key + "-" + subBreeds.getString(i));
+                                //     }
+                                // }
                             }
                             displayBreedList(breedList);
                         } catch (JSONException e) {
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Method to display the breed list in the ListView
+    //? Method to display the breed list in the ListView
     private void displayBreedList(ArrayList<String> breedList) {
         ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, breedList);
         lv_breedList.setAdapter(itemsAdapter);
